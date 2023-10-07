@@ -6,6 +6,12 @@ function ContentBottom() {
 
     const [inputLink, setInputLink] = useState("");
 
+    const [isClicked, setIsClicked] = useState(false);
+
+    const handleClick = () => {
+        setIsClicked(!isClicked);
+    };
+
     function handleChange(event) {
         setInputLink(event.target.value);
     }
@@ -35,6 +41,10 @@ function ContentBottom() {
         setInputLink("");
     }
 
+    const buttonClasses = `${isClicked ? 'bg-purple-950': 'bg-cyan-300 hover:bg-cyan-200'} text-white font-bold p-4 pt-2 pb-2 text-sm rounded-lg`
+
+
+
     return (
 
         <div>
@@ -44,15 +54,18 @@ function ContentBottom() {
             <div className="mr-44 ml-44 pt-20">
                 {allLinks.map(link => {
                     return (
-                        <div className="grid grid-cols-7 bg-white p-3 mt-4 rounded-md text-slate-500">
+                        <div key={link.shortLink} className="grid grid-cols-7 bg-white p-3 mt-4 rounded-md text-slate-500">
                             <div className="flex justify-between col-span-6 items-center">
                                 <p>{link.inputLink}</p>
                                 <p className="text-cyan-400">{link.shortLink}</p>
                             </div>
                             <div className="col-span-1 flex justify-end items-center">
-                                <button className=" bg-cyan-300 text-white font-bold p-4 pt-2 pb-2 text-sm rounded-lg"
-                                onClick={() => {navigator.clipboard.writeText(link.shortLink)}}
-                                >Copy</button>
+                                <button className={buttonClasses}
+                                onClick={() => {
+                                    handleClick();
+                                    navigator.clipboard.writeText(link.shortLink);
+                                }}
+                                >{isClicked ? "Copied" : 'Copy'}</button>
                             </div>
                             
                         </div>
